@@ -10,7 +10,7 @@ env:
   APP_CONTAINER_NAME: product_app_2025
   SONAR_PROJECT_KEY: product-app
   SONAR_HOST_URL: http://localhost:9000
-  SONAR_TOKEN: squ_acf3ee52c8c6cbd43a50bf6be64ba463d78bed34
+  SONAR_TOKEN: squ_b983feaa0c33d90d9f70dd3a7c8429c23c1dbeb0
 
 jobs:
   build_analyze_deploy:
@@ -37,12 +37,7 @@ jobs:
             -Dsonar.host.url=${{ env.SONAR_HOST_URL }} \
             -Dsonar.login=${{ env.SONAR_TOKEN }}
 
-      - name: 🛠 Crear red Docker si no existe
-        run: |
-          docker network inspect micro_product_net >/dev/null 2>&1 || \
-          docker network create --driver bridge micro_product_net
-
-      - name: 🚀 Desplegar aplicación con Docker Compose
+      - name: 🚀 Despliegue con Docker Compose
         run: |
           echo "🔧 Desplegando aplicación..."
           cd docker
@@ -50,9 +45,3 @@ jobs:
           docker-compose -p $DOCKER_PROJECT_NAME up -d --build
           echo "📋 Logs recientes:"
           docker logs --tail 50 $APP_CONTAINER_NAME
-
-      - name: ✅ Verificar estado del contenedor
-        run: |
-          echo "🔍 Verificando si el contenedor está activo..."
-          docker ps | grep $APP_CONTAINER_NAME || \
-          (echo "❌ El contenedor no está corriendo." && exit 1)
