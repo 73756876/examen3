@@ -10,7 +10,7 @@ services:
     ports:
       - "8086:8080"
     networks:
-      - backend
+      - micro_product_net
 networks:
   backend:
     external: true
