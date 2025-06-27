@@ -12,5 +12,6 @@ services:
     networks:
       - backend
 networks:
-  default:
+  backend:
+    external: true
     name: micro_product_net
