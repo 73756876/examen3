@@ -10,7 +10,7 @@ services:
     ports:
       - "8086:8080"
     networks:
-      - docker
+      - backend
 networks:
   backend:
     external: true
